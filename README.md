@@ -1,2 +1,2 @@
-#run 
-go run main.go
+## goalng-CRUD
+- `run`: go run main.go.
