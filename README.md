@@ -1,2 +1,2 @@
 #run 
-<p>go run main.go</p>
+go run main.go
