@@ -1,6 +1,9 @@
 package models
 
 import (
+	"os"
+
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -8,12 +11,25 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	database, err := gorm.Open(mysql.Open("root:@tcp(localhost:3306)/golang-crud"))
-	if err != nil {
-		panic(err)
-	}
+    err := godotenv.Load()
+    if err != nil {
+        panic("Error loading .env file")
+    }
 
-	database.AutoMigrate(&Product{})
+    dbUsername := os.Getenv("DB_USERNAME")
+    dbPassword := os.Getenv("DB_PASSWORD")
+    dbHost := os.Getenv("DB_HOST")
+    dbPort := os.Getenv("DB_PORT")
+    dbName := os.Getenv("DB_NAME")
 
-	DB = database
+    dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?parseTime=true"
+    
+    database, err := gorm.Open(mysql.Open(dsn))
+    if err != nil {
+        panic(err)
+    }
+
+    database.AutoMigrate(&Product{})
+
+    DB = database
 }
