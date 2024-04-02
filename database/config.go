@@ -1,8 +1,9 @@
-package models
+package database
 
 import (
 	"os"
 
+	"github.com/golang-crud/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -29,7 +30,8 @@ func ConnectDatabase() {
         panic(err)
     }
 
-    database.AutoMigrate(&Product{})
+   
+   database.AutoMigrate(&models.Product{}) 
 
     DB = database
 }
